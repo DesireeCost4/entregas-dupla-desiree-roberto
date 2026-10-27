@@ -2,6 +2,8 @@ package br.edu.ifpb;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -48,8 +50,6 @@ class PrazoEntregaServiceTest {
         );
     }
 
-
-
     @Test
     void distancia_51_expressa_deveRetornarUmDiaAMenos() {
         assertEquals(2, service.calcularPrazo(51, true));
@@ -65,27 +65,24 @@ class PrazoEntregaServiceTest {
         assertEquals(1, service.calcularPrazo(10, true));
     }
 
+    // 27/10/26 - Rodada 2
 
-    // 27/10/26
+    @ParameterizedTest(name = "{0} km / Prime={1} -> R${2}")
+    @CsvSource({
+            "50, false, 10",
+            "50, true, 5",
+            "200, true, 10",
+            "201, true, 20"
+    })
+    void calcularTaxa_deveConsiderarClientePrime(
+            int distanciaKm,
+            boolean clientePrime,
+            int taxaEsperada) {
 
-    @Test
-    void calcularTaxa_naoPrime50km_deveRetornar10() {
-        assertEquals(10, service.calcularTaxa(50, false));
-    }
-
-    @Test
-    void calcularTaxa_prime50km_deveRetornar5() {
-        assertEquals(5, service.calcularTaxa(50, true));
-    }
-
-    @Test
-    void calcularTaxa_prime200km_deveRetornar10() {
-        assertEquals(10, service.calcularTaxa(200, true));
-    }
-
-    @Test
-    void calcularTaxa_prime201km_deveRetornar20() {
-        assertEquals(20, service.calcularTaxa(201, true));
+        assertEquals(
+                taxaEsperada,
+                service.calcularTaxa(distanciaKm, clientePrime)
+        );
     }
 
     @Test
@@ -94,7 +91,4 @@ class PrazoEntregaServiceTest {
             service.calcularTaxa(0, true);
         });
     }
-
-
-
 }
