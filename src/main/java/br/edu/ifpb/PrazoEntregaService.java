@@ -34,7 +34,7 @@ public class PrazoEntregaService {
         if (distanciaKm <= 50) {
             return 10;
         }
-        if (distanciaKm < 200) {
+        if (distanciaKm <= 200) {
             return 20;
         }
         return 40;
