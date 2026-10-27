@@ -29,12 +29,25 @@ public class PrazoEntregaService {
 
     public int calcularTaxa(int distanciaKm) {
         if (distanciaKm <= 0) {
-            throw new IllegalArgumentException("Distancia invalida");
+            throw new IllegalArgumentException("Distância deve ser maior que zero");
+        }
+        if (distanciaKm <= 50) {
+            return 10;
+        }
+        if (distanciaKm <= 200) {
+            return 20;
+        }
+        return 40;
+    }
+
+    public int calcularTaxa(int distanciaKm, boolean clientePrime) {
+        int taxaNormal = calcularTaxa(distanciaKm);
+
+        if (clientePrime) {
+            return taxaNormal / 2;
         }
 
-        if (distanciaKm <= 50) return 10;
-        if (distanciaKm <= 200) return 20;
-        return 40;
+        return taxaNormal;
     }
 
 

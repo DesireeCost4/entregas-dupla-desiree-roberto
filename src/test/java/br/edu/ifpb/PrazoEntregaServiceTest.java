@@ -48,6 +48,8 @@ class PrazoEntregaServiceTest {
         );
     }
 
+
+
     @Test
     void distancia_51_expressa_deveRetornarUmDiaAMenos() {
         assertEquals(2, service.calcularPrazo(51, true));
@@ -62,5 +64,37 @@ class PrazoEntregaServiceTest {
     void expressa_nuncaDeveFicarAbaixoDeUmDia() {
         assertEquals(1, service.calcularPrazo(10, true));
     }
+
+
+    // 27/10/26
+
+    @Test
+    void calcularTaxa_naoPrime50km_deveRetornar10() {
+        assertEquals(10, service.calcularTaxa(50, false));
+    }
+
+    @Test
+    void calcularTaxa_prime50km_deveRetornar5() {
+        assertEquals(5, service.calcularTaxa(50, true));
+    }
+
+    @Test
+    void calcularTaxa_prime200km_deveRetornar10() {
+        assertEquals(10, service.calcularTaxa(200, true));
+    }
+
+    @Test
+    void calcularTaxa_prime201km_deveRetornar20() {
+        assertEquals(20, service.calcularTaxa(201, true));
+    }
+
+    @Test
+    void calcularTaxa_distanciaZero_deveLancarExcecao() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.calcularTaxa(0, true);
+        });
+    }
+
+
 
 }
